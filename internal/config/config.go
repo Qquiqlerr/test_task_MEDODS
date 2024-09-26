@@ -8,7 +8,7 @@ import (
 )
 
 type Config struct {
-	Secret    string        `yaml:"secret" env-required:"true"`
+	Secret    string
 	AccessExp time.Duration `yaml:"accessExp" env-default:"15m"`
 	Address   string        `yaml:"address"`
 }
@@ -26,6 +26,6 @@ func MustLoad() *Config {
 	if err := cleanenv.ReadConfig(configPath, &config); err != nil {
 		log.Fatalf("Error loading config: %s", err)
 	}
-
+	config.Secret = os.Getenv("SECRET")
 	return &config
 }
