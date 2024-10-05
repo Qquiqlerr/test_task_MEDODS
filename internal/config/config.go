@@ -1,6 +1,7 @@
 package config
 
 import (
+	"github.com/dotenv-org/godotenvvault"
 	"github.com/ilyakaznacheev/cleanenv"
 	"log"
 	"os"
@@ -14,6 +15,10 @@ type Config struct {
 }
 
 func MustLoad() *Config {
+	err := godotenvvault.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
 	configPath := os.Getenv("CONFIG_PATH")
 	if configPath == "" {
 		log.Fatal("CONFIG_PATH environment variable not set")
